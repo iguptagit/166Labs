@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Pacman BFS TinyMaze",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/Lab2/search_and_games/pacman.py",
+            "args": [
+                "-l", "tinyMaze",
+                "-p", "SearchAgent",
+                "-a", "fn=breadthFirstSearch"
+            ],
+            "cwd": "${workspaceFolder}/Lab2/search_and_games",
+            "python": "/opt/anaconda3/envs/myenv/bin/python",
+            "console": "integratedTerminal"
+        }
+    ]
+}
