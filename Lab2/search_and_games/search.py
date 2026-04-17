@@ -187,11 +187,54 @@ def UniformCostSearch(problem):
     "*** YOUR CODE HERE ***"  
     util.raiseNotDefined()
     
+def getSolution(node):
+    actions = []
+    current = node
+    while current.parent is not None:
+        actions.append(current.action)
+        current = current.parent
+    actions.reverse()
+    return actions
+
+def getSuccessors(problem, currentNode):
+    successors = []
+    for action in problem.getActions(currentNode.state):
+        childState = problem.getResult(currentNode.state, action)
+        cost = problem.getCost(currentNode.state, action)
+
+        childNode = Node(childState, currentNode, action, currentNode.path_cost + cost)
+        successors.append(childNode)
+    return successors
 
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    
+    frontier = util.PriorityQueue()
+    visited = set()
+
+    startState = problem.getStartState()
+    startNode = Node(startState, None, None, 0)
+
+    # f = g + h
+    start_f = 0 + heuristic(startState, problem)
+    frontier.push(startNode, start_f)
+
+    while not frontier.isEmpty():
+        currentNode = frontier.pop()
+
+        if problem.goalTest(currentNode.state):
+            return getSolution(currentNode)
+
+        if currentNode.state not in visited:
+            visited.add(currentNode.state)
+            # actions = problem.getActions(currentNode.state)
+            
+            for child in getSuccessors(problem, currentNode):
+                if child.state not in visited:
+                    f = child.path_cost + heuristic(child.state, problem)
+                    frontier.push(child, f)
+    
+    return []
 
 # Abbreviations
 bfs = breadthFirstSearch
