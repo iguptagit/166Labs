@@ -128,8 +128,25 @@ def breadthFirstSearch(problem):
     You are not required to implement this, but you may find it useful for Q5.
     """
     "*** YOUR CODE HERE ***"
+    start = problem.getStartState()
+    if problem.goalTest(start):
+        return []
+    frontier = util.Queue() # storing frontier nodes in the format of tuple (state, path)
+    frontier.push((start, []))
+    visited = set([start]) # storing visited nodes as their state
+    while not frontier.isEmpty():
+        current, path = frontier.pop()
+        actions = problem.getActions(current) # paths to the children of current 
+        for action in actions: 
+            next = problem.getResult(current, action) # getting the state of the next child 
+            if next not in visited: 
+                nextactions = path + [action] # update the path to include the path to the child 
+                if problem.goalTest(next):
+                    return nextactions # return path from start to child 
+                visited.add(next) # otherwise update visited set 
+                frontier.push((next, nextactions)) # add child to frontiers 
     util.raiseNotDefined()
-    
+
 def depthFirstSearch(problem): 
 
     "*** YOUR CODE HERE ***"   
