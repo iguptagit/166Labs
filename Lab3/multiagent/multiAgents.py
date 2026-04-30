@@ -14,6 +14,7 @@
 
 from util import manhattanDistance
 from game import Directions
+import math
 import random, util
 
 from game import Agent
@@ -136,6 +137,18 @@ class MinimaxAgent(MultiAgentSearchAgent):
         """
         "*** YOUR CODE HERE ***"
         util.raiseNotDefined()
+
+    def maxValue_fun(self, state, PlayerIndex):
+        # other arguments if needed
+        if PlayerIndex == 0:     # root node, PlayerIndex is depth
+            return self.evaluationFunction(state) # some recursive function
+        
+        v = -math.inf 
+        actions = state.getLegalActions(0)
+        for action in actions:
+            successor = state.generateSuccessor(0, action)
+            v = max(v, self.minValue_fun(successor, PlayerIndex, 1))  # first ghost covered by min layer
+        return v
 
 class AlphaBetaAgent(MultiAgentSearchAgent):
     """
