@@ -152,7 +152,6 @@ class MinimaxAgent(MultiAgentSearchAgent):
         return bestaction
 
     def maxValue_fun(self, state, PlayerIndex, depth):
-            # Terminal(base) condition for recursive search algorithm
         if state.isWin() or state.isLose() or depth == self.depth:
             return self.evaluationFunction(state)
         actions = state.getLegalActions(PlayerIndex)
@@ -167,7 +166,6 @@ class MinimaxAgent(MultiAgentSearchAgent):
             
         
     def minValue_fun(self, state, playerIndex, depth):
-            # Terminal(base) condition for recursive search algorithm
         if state.isWin() or state.isLose() or depth == self.depth:
             return self.evaluationFunction(state)
 
