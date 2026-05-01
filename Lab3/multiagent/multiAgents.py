@@ -136,74 +136,66 @@ class MinimaxAgent(MultiAgentSearchAgent):
         Returns whether or not the game state is a losing state
         """
         "*** YOUR CODE HERE ***"
-
-        def maxValue_fun(state, PlayerIndex, depth):
-            # Terminal(base) condition for recursive search algorithm
-            if state.isWin() or state.isLose() or depth == self.depth:
-                return self.evaluationFunction(state)
-            actions = state.getLegalActions(PlayerIndex)
-            if not actions:
-                return self.evaluationFunction(state)
-            val = float("-inf")
-            for action in actions:
-                successor = state.generateSuccessor(PlayerIndex, action)
-                val = max(val, minValue_fun(successor, PlayerIndex+1, depth))  # first ghost covered by min layer
-            return val
-            """
-            # other arguments if needed
-            if PlayerIndex == 0:     # root node, PlayerIndex is depth
-                return self.evaluationFunction(state) # some recursive function
-            
-            v = -math.inf 
-            actions = state.getLegalActions(0)
-            for action in actions:
-                successor = state.generateSuccessor(0, action)
-                v = max(v, self.minValue_fun(successor, PlayerIndex, 1))  # first ghost covered by min layer
-            return v
-            """
-        
-        def minValue_fun(state, playerIndex, depth):
-            # Terminal(base) condition for recursive search algorithm
-            if state.isWin() or state.isLose() or depth == self.depth:
-                return self.evaluationFunction(state)
-
-            v = float("inf")
-
-            #get all actions
-            actions = state.getLegalActions(playerIndex)
-
-            # If there is no moves then evaluate
-            if not actions:
-                return self.evaluationFunction(state)
-
-            #get num of agents
-            numAgents = state.getNumAgents()
-
-            for action in actions:
-                #get next state
-                successor = state.generateSuccessor(playerIndex, action)
-
-                # If last ghost then go back to Pacman (MAX) and increase depth
-                if playerIndex == numAgents - 1:
-                    v = min(v, maxValue_fun(successor, 0, depth + 1))
-                else:
-                    # Otherwise go to next ghost
-                    v = min(v, minValue_fun(successor, playerIndex + 1, depth))
-                return v
-        
         if gameState.isWin() or gameState.isLose():
             return self.evaluationFunction(gameState)
-        
+            
         listofactions = gameState.getLegalActions(0)
         bestaction = listofactions[0]
         bestval = float("-inf")
-        for action in gameState.getLegalActions(0):
+
+        for action in listofactions:
             successor = gameState.generateSuccessor(0, action)
-            val = minValue_fun(successor, 1, 0)
+            val = self.minValue_fun(successor, 1, 0)
             if val > bestval:
                 bestval = val
                 bestaction = action
-        return bestaction 
+        return bestaction
+
+    def maxValue_fun(self, state, PlayerIndex, depth):
+            # Terminal(base) condition for recursive search algorithm
+        if state.isWin() or state.isLose() or depth == self.depth:
+            return self.evaluationFunction(state)
+        actions = state.getLegalActions(PlayerIndex)
+        if not actions:
+            return self.evaluationFunction(state)
+        
+        val = float("-inf")
+        for action in actions:
+            successor = state.generateSuccessor(PlayerIndex, action)
+            val = max(val, self.minValue_fun(successor, 1, depth))  # first ghost covered by min layer
+        return val
+            
+        
+    def minValue_fun(self, state, playerIndex, depth):
+            # Terminal(base) condition for recursive search algorithm
+        if state.isWin() or state.isLose() or depth == self.depth:
+            return self.evaluationFunction(state)
+
+        v = float("inf")
+
+            #get all actions
+        actions = state.getLegalActions(playerIndex)
+
+            # If there is no moves then evaluate
+        if not actions:
+            return self.evaluationFunction(state)
+
+            #get num of agents
+        numAgents = state.getNumAgents()
+
+        for action in actions:
+                #get next state
+            successor = state.generateSuccessor(playerIndex, action)
+
+                # If last ghost then go back to Pacman (MAX) and increase depth
+            if playerIndex == numAgents - 1:
+                v = min(v, self.maxValue_fun(successor, 0, depth + 1))
+            else:
+                    # Otherwise go to next ghost
+                v = min(v, self.minValue_fun(successor, playerIndex + 1, depth))
+        return v
+            
+             
     
 
 class AlphaBetaAgent(MultiAgentSearchAgent):
