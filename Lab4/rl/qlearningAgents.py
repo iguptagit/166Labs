@@ -109,14 +109,16 @@ class QLearningAgent(ReinforcementAgent):
         action = None
         "*** YOUR CODE HERE ***"
 
+        #len(legalActions) return how many possible actions the agent can take
         if len(legalActions) == 0:
             return None
 
-        # exploration
+        # exploration -> random action
         if util.flipCoin(self.epsilon):
+            #flipCoin function true with probability epsilon and false with probability 1 - eplsion
             action = random.choice(legalActions)
 
-        # exploitation
+        # exploitation -> choose best known action
         else:
             action = self.computeActionFromQValues(state)
 
