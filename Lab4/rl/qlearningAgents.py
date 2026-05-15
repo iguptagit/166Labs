@@ -81,7 +81,18 @@ class QLearningAgent(ReinforcementAgent):
           there are no legal actions, which is the case at the
           terminal state, you should return a value of 0.0.
         """
-        "*** YOUR CODE HERE ***"
+        legalActions = self.getLegalActions(state)
+
+        if not legalActions:
+            return 0.0
+        
+        max_v = float('-inf')
+
+        for action in legalActions:
+            q = self.getQValue(state, action)
+            if q > max_v:
+                max_v = q
+        return max_v
         util.raiseNotDefined()
 
     def computeActionFromQValues(self, state):
@@ -120,7 +131,17 @@ class QLearningAgent(ReinforcementAgent):
           NOTE: You should never call this function,
           it will be called on your behalf
         """
-        "*** YOUR CODE HERE ***"
+        #Q(s,a) <- (1-a) Q(s,a) + a[R(s,a,s)+y maxQ(s',a')]
+        #s'
+        nextState = self.computeValueFromQValues(nextState)
+        sample = reward + (self.discount * nextState)
+
+        oldQ = self.getQValue(state, action)
+
+        #formula
+        newQ = ((1-self.alpha) * oldQ) + (self.alpha * sample)
+
+        self.qvalues[(state, action)] = newQ
         #util.raiseNotDefined()
         
         # self.qvalues[(state,action)] = ...
