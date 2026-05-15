@@ -70,6 +70,8 @@ class QLearningAgent(ReinforcementAgent):
         else:
             test = 0 # just for testing
             # update the dictionary self.qvalues with this unseen (s,a) and initialize its value as 0.0
+            self.qvalues[(state,action)] = 0.0
+            return 0.0
             # self.qvalues[(s,a)]=0.0
             # return this q-value     
             
@@ -103,6 +105,22 @@ class QLearningAgent(ReinforcementAgent):
         """
         "*** YOUR CODE HERE ***"
         # YL: if there are multiple best actions, then choose a random one
+
+        # getting all legal actions for the given state
+        actions = self.getLegalActions(state)
+        # if there are no legal actions, return None
+        if not actions:
+            return None
+        # using the compute values function to get the max value for the given state
+        maxval = self.computeValueFromQValues(state)
+        bestactions = []
+        for action in actions:
+            #if qvalue of the current action is equal to max, add it to list of best actions
+            if self.getQValue(state, action) == maxval:
+                bestactions.append(action)
+        return random.choice(bestactions)
+            
+        
         util.raiseNotDefined()
 
     def getAction(self, state):
