@@ -17,6 +17,8 @@ print(type(x_train))
 print(type(y_train))
 print(y_train[:10])
 
+# ------------------------------- Part a -------------------------------
+
 # visualizing the dataset
 for i in range(10):
     index = np.where(y_train==i)[0][0]
@@ -24,53 +26,38 @@ for i in range(10):
     plt.imshow(x_train[index], cmap=plt.get_cmap('gray'))
 plt.show()
 
-# Part b
+# ------------------------------- Part b -------------------------------
 
 # Build the neural network model
 
 model = tf.keras.models.Sequential([
-
     # Flatten 28x28 image into 784 vector
     tf.keras.layers.Flatten(input_shape=(28, 28)),
-
     # Hidden layer with 512 neurons and ReLU activation
     tf.keras.layers.Dense(512, activation='relu'),
-
     # Output layer with 10 neurons and Softmax activation
     tf.keras.layers.Dense(10, activation='softmax')
-
 ])
-
 
 # Compile the model
 
 model.compile(
-
     optimizer='adam',
-
     loss='sparse_categorical_crossentropy',
-
     metrics=['accuracy']
-
 )
-
 
 # Print model summary
 
 model.summary()
 
-
 # Train the model
 
 history = model.fit(
-
     x_train,
     y_train,
-
     epochs=5,
-
     batch_size=32
-
 )
 
 print("Training complete.")
