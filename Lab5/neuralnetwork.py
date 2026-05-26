@@ -65,22 +65,19 @@ print("Training complete.")
 
 # eval test set
 test_loss, test_accuracy = model.evaluate(x_test, y_test)
-
 print(f"Test Accuracy: {test_accuracy * 100:.2f}%")
-
 y_pred_probs = model.predict(x_test) # predicting, 10k x 10 matrix, 10 prob scores
 
 # pick highest prob in each row, 
 # class labels
 y_pred = np.argmax(y_pred_probs, axis=1)
 
-
 # confusion matrix
 cm = confusion_matrix(y_test, y_pred)
 print("Confusion MAtrix:")
 print(cm)
 
-    # visuals
+# visuals
 disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=classlabels)
 disp.plot(xticks_rotation=45)
 plt.title("Confusion Matrix - Fashion MNIST")
