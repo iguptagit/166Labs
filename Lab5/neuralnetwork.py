@@ -22,8 +22,8 @@ print(y_train[:10])
 
 # visualizing the dataset
 for i in range(10):
-    index = np.where(y_train==i)[0][0]
-    plt.subplot(2, 5, i+1)
+    index = np.where(y_train==i)[0][0] # .where returns an array where each element is class i 
+    plt.subplot(2, 5, i+1) # creating a 2x5 grid
     plt.imshow(x_train[index], cmap=plt.get_cmap('gray'))
 plt.show()
 
