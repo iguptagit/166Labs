@@ -16,7 +16,7 @@ train_images, test_images = train_images / 255.0, test_images / 255.0
 
 model = models.Sequential()
 
-# Layer 1 (provided)
+# Layer 2 (provided)
 model.add(layers.Conv2D(
     32,
     (3, 3),
@@ -26,14 +26,14 @@ model.add(layers.Conv2D(
     input_shape=(28, 28, 1)
 ))
 
-# Layer 2
+# Layer 3
 model.add(layers.MaxPooling2D(
     pool_size=(2,2),
     strides=(2,2),
     padding='same'
 ))
 
-# Layer 3
+# Layer 4
 model.add(layers.Conv2D(
     64,
     (3,3),
@@ -41,6 +41,25 @@ model.add(layers.Conv2D(
     padding='same',
     strides=(1,1)
 ))
+
+# Layer 5
+model.add(layers.MaxPooling2D(
+    pool_size=(2,2),
+    strides=(2,2),
+    padding='same'
+))
+
+# Layer 6
+model.add(layers.Conv2D(
+    64,
+    (3,3),
+    activation='relu',
+    padding='same',
+    strides=(1,1)
+))
+
+# Layer 7
+model.add(layers.Flatten())
 
 # Build the convolutional neural network model
 # Remaining layers to be added 
