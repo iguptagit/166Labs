@@ -64,6 +64,13 @@ model.add(layers.Flatten())
 # Build the convolutional neural network model
 # Remaining layers to be added 
 
+# Layer 8
+model.add(layers.Dense(64, activation='relu'))
+
+# Layer 9
+model.add(layers.Dense(10, activation='softmax'))
+
+
 # Compile the model
 model.compile(
     optimizer='adam',
